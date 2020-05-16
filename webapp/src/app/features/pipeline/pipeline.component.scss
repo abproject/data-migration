@@ -1,0 +1,71 @@
+form {
+  height: 100%;
+}
+.loader {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  display: grid;
+  height: 100%;
+  width: 100%;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto;
+  grid-template-areas:
+    "name name actions actions"
+    "source-server mapping mapping mapping"
+    "dist-server mapping mapping mapping"
+    "dist-table mapping mapping mapping"
+    "sql sql sql sql";
+  grid-gap: 20px 50px;
+  align-items: center;
+}
+
+.name {
+  grid-area: name;
+}
+.source-server {
+  grid-area: source-server;
+}
+.dist-server {
+  grid-area: dist-server;
+}
+.dist-table {
+  grid-area: dist-table;
+}
+.sql {
+  grid-area: sql;
+  textarea {
+    background-color: #fff9e2;
+  }
+}
+.mapping {
+  grid-area: mapping;
+  align-self: start;
+  overflow-y: auto;
+  height: 100%;
+  .mapping-item {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    & > * {
+      flex: 1 0 0;
+      margin-left: 10px;
+      &:last-child {
+        text-align: center;
+      }
+    }
+  }
+}
+.actions {
+  grid-area: actions;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  & > * {
+    width: 30%;
+  }
+}

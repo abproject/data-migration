@@ -1,0 +1,26 @@
+<mat-list *ngIf="servers$ | async; let servers">
+  <div class="loader" *ngIf="servers.pending; else loaded">
+    <mat-spinner></mat-spinner>
+  </div>
+  <ng-template #loaded>
+    <h3 matSubheader *ngIf="servers.data.length == 0; else availableServers">No available servers</h3>
+    <ng-template #availableServers>
+      <h3 matSubheader>Available servers</h3>
+      <mat-list-item *ngFor=" let server of servers.data">
+        <mat-icon class="server-icon" matListIcon>storage</mat-icon>
+        <div matLine>
+          <span class="mat-body-strong">{{ server.type }}: {{ server.name }}</span>
+        </div>
+        <div matLine>
+          <span class="mat-small">Host:
+            <span class="mat-body-strong">{{ server.host }}:{{ server.port }}</span>
+          </span>
+        </div>
+        <div matLine>
+          <span class="mat-small">User: <span class="mat-body-strong">{{ server.user }}</span></span>
+        </div>
+      </mat-list-item>
+    </ng-template>
+  </ng-template>
+
+</mat-list>

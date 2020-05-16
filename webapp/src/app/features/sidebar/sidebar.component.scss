@@ -1,0 +1,28 @@
+:host {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  max-height: 100%;
+  .create {
+    margin-bottom: 10px;
+    button {
+      width: 100%;
+    }
+  }
+  .list {
+    flex: 1;
+    overflow: auto;
+    mat-list-item {
+      cursor: pointer;
+    }
+  }
+}
+
+mat-list-item.active,
+mat-list-item:hover {
+  background-color: #ffd740;
+}
+
+.loader mat-spinner {
+  margin: 0 auto;
+}

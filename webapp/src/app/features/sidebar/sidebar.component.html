@@ -1,0 +1,28 @@
+<div class="create">
+  <button mat-raised-button color="accent" (click)="createNewPipeline()">
+    <mat-icon>add</mat-icon>Create New Pipeline
+  </button>
+</div>
+<div class="list">
+  <mat-list *ngIf="pipelines$ | async; let pipelines">
+    <div class="loader" *ngIf="pipelines.all.pending; else loaded">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <ng-template #loaded>
+
+      <mat-list-item *ngFor="let pipeline of pipelines.all.data" (click)="selectPipeline(pipeline.id)"
+        [class.active]="pipeline.id === id">
+        <mat-icon matListIcon>archive</mat-icon>
+        <div matLine>{{pipeline.name}}</div>
+        <div matLine>
+          <span class="mat-small">{{pipeline.modifiedAt | date : 'dd.MM.yyyy HH:mm'}}</span>
+        </div>
+        <button mat-mini-fab color="warn" (click)="deletePipeline(pipeline.id, $event)">
+          <mat-icon>delete</mat-icon>
+        </button>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </ng-template>
+  </mat-list>
+</div>

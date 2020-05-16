@@ -1,0 +1,94 @@
+<form [formGroup]="form" novalidate (ngSubmit)="run()">
+  <div class="loader" *ngIf="isLoading; else formData">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <ng-template #formData>
+    <div class="container">
+      <mat-form-field class="name">
+        <input matInput placeholder="Name" type="text" formControlName="name" [errorStateMatcher]="matcher">
+        <mat-error *ngIf="getControlError('name', 'required')">
+          Name is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="source-server">
+        <mat-select placeholder="Source Server" formControlName="sourceServerId">
+          <mat-option *ngFor="let server of servers" [value]="server.id">{{ server.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="dist-server">
+        <mat-select matNativeControl placeholder="Destination Server " formControlName="distServerId">
+          <mat-option *ngFor="let server of servers" [value]="server.id">{{ server.name }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="dist-table">
+        <input matInput placeholder="Destination Table" type="text" formControlName="distTable"
+          [errorStateMatcher]="matcher">
+        <mat-error *ngIf="getControlError('distTable', 'required')">
+          Destination Table is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="sql">
+        <textarea matInput placeholder="SQL Query" type="text" formControlName="sql" [errorStateMatcher]="matcher"
+          cdkTextareaAutosize cdkAutosizeMinRows="20" cdkAutosizeMaxRows="20"></textarea>
+        <mat-error *ngIf="getControlError('sql', 'required')">
+          SQL is <strong>required</strong>
+        </mat-error>
+      </mat-form-field>
+
+      <div class="mapping" formArrayName="mapping">
+        <div class="mapping-item" *ngFor="let mappingItem of mapping.controls; let i=index" [formGroupName]="i">
+          <mat-form-field class="mapping-source">
+            <input matInput placeholder="Source Property" type="text" formControlName="source"
+              [errorStateMatcher]="matcher">
+            <mat-error *ngIf="getMappingError(i, 'source', 'required')">
+              Source is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="mapping-dist">
+            <input matInput placeholder="Destination Property" type="text" formControlName="dist"
+              [errorStateMatcher]="matcher">
+            <mat-error *ngIf="getMappingError(i, 'dist', 'required')">
+              Destination is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field class="mapping-dist-type">
+            <mat-select matNativeControl placeholder="Type" formControlName="distType">
+              <mat-option value="S" selected="selected">S</mat-option>
+              <mat-option value="N">N</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <div>
+            <button mat-mini-fab color="warn" (click)="deleteMapping(i)" type="button">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+
+        </div>
+        <div class="mapping-item mapping-item-last">
+          <div>
+            <button mat-mini-fab (click)="addMapping()" type="button">
+              <mat-icon>add</mat-icon>
+            </button>
+          </div>
+          <div></div>
+          <div></div>
+        </div>
+
+      </div>
+
+      <div class="actions">
+        <button mat-raised-button color="accent" type="button" (click)="save()">Save</button>
+        <button mat-raised-button color="accent" type="button" (click)="check()">Check</button>
+        <button mat-raised-button color="primary" type="submit">Run</button>
+      </div>
+    </div>
+  </ng-template>
+
+</form>
